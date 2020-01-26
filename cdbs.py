@@ -141,12 +141,15 @@ class LoginScreen(GridLayout):
         self.page_existing_clients(instance)
     
     def func_search_last_name(self, instance):
-        mycursor.execute("SELECT * FROM clients WHERE", (self.search_last_name.text))
+        sql = "SELECT * FROM clients WHERE lastname =  'VALUES (%s)'"
+        val = (self.search_last_name.text)
+        mycursor.execute(sql, val)
         myresult = mycursor.fetchall()
         self.clear_widgets()
         self.cols = 1
-        for x in myresult:
-            self.add_widget(Label(x))
+
+        self.add_widget(Label(text = str(myresult)))
+        self.add_widget(Label(text = str(self.search_last_name.text)))
 #--------------------------------------------------------
 class MyClientDatabase(App):
     def build(self):
